@@ -1,0 +1,18 @@
+#!/bin/bash
+mkdir sandbox
+cd sandbox
+cabal sandbox init --sandbox .
+cabal sandbox add-source ../hlib
+cabal sandbox add-source ../simplelib
+cd ../hlib
+cabal sandbox init --sandbox ../sandbox
+cabal configure --enable-tests
+cabal install
+cabal test
+cd ../simplelib
+cabal sandbox init --sandbox ../sandbox
+cabal configure --enable-tests
+cabal build
+cabal test
+cd ..
+exit
