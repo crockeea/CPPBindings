@@ -1,14 +1,24 @@
 #!/bin/bash
+# a little cleanup
+cd hlib
+cabal clean
+cd ../simplelib
+cabal clean
+cd ..
+rm -rf sandbox
+# make a sandbox
 mkdir sandbox
 cd sandbox
 cabal sandbox init --sandbox .
 cabal sandbox add-source ../hlib
 cabal sandbox add-source ../simplelib
+# install and test hlib
 cd ../hlib
 cabal sandbox init --sandbox ../sandbox
 cabal configure --enable-tests
 cabal install
 cabal test
+# build and test simplelib
 cd ../simplelib
 cabal sandbox init --sandbox ../sandbox
 cabal configure --enable-tests

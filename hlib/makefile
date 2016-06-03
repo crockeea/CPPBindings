@@ -5,17 +5,14 @@ CXXFLAGS ?= -Wall -O3 -std=c++11 -fPIC
 CSRCPATH = clib
 OBJPATH = dist/build/clib
 # if you change LIBPATH or LIBNAME, you must update Setup.hs.
-STATICLIBPATH = $(OBJPATH)
-DYNLIBPATH = $(OBJPATH)
+LIBPATH = $(OBJPATH)
 LIBNAME = libclib
-CD = $(shell pwd)
 
 all: makelib
 
 mkdst:
 	mkdir -p $(OBJPATH)
-	mkdir -p $(STATICLIBPATH)
-	mkdir -p $(DYNLIBPATH)
+	mkdir -p $(LIBPATH)
 
 $(OBJPATH)/%.o: $(CSRCPATH)/%.cpp
 	$(CXX) $(CXXFLAGS) -c -o $@ $<
@@ -27,18 +24,15 @@ $(OBJPATH)/%.o: $(CSRCPATH)/%.cpp
 
 # the .a file and the .so file must have different names, or cabal configure gets confused and reports
 # that it can't find libctensor.
-makelib: mkdst $(OBJPATH)/crt.o $(OBJPATH)/g.o $(OBJPATH)/generalfuncs.o $(OBJPATH)/l.o $(OBJPATH)/mul.o $(OBJPATH)/norm.o $(OBJPATH)/random.o
-	$(AR) rcvs $(STATICLIBPATH)/$(LIBNAME).a $(OBJPATH)/*.o
-	$(CXX) -shared $(CXXFLAGS) -o $(DYNLIBPATH)/$(LIBNAME).so $(OBJPATH)/*.o
-	# ln -sf $(CD)/$(DYNLIBPATH)/$(LIBNAME).so $(CD)/$(DYNLIBPATH)/$(LIBNAME).dylib
+makelib: mkdst $(OBJPATH)/l.o $(OBJPATH)/generalfuncs.o
+	$(AR) rcvs $(LIBPATH)/$(LIBNAME).a $(OBJPATH)/*.o
+	# $(CXX) -shared $(CXXFLAGS) -o $(LIBPATH)/$(LIBNAME).so $(OBJPATH)/*.o
 
 clean:
 	rm -f ./$(OBJPATH)/*.o
-	rm -f ./$(STATICLIBPATH)/*.a
-	rm -f ./$(DYNLIBPATH)/*.so
-	rm -f ./$(DYNLIBPATH)/*.dylib
+	rm -f ./$(LIBPATH)/*.a
+	rm -f ./$(LIBPATH)/*.so
 	# make sure that cabal re-links with the new lib
-	rm -f ./dist/build/test-lol/test-lol
-	rm -f ./dist/build/bench-lol/bench-lol
+	rm -f ./dist/build/test/test
 
 .PHONY: all clean
