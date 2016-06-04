@@ -1,7 +1,7 @@
 {-# LANGUAGE ConstraintKinds, DataKinds, FlexibleContexts,
              FlexibleInstances, GADTs, GeneralizedNewtypeDeriving,
-             InstanceSigs, MultiParamTypeClasses, NoImplicitPrelude,
-             PolyKinds, RankNTypes, RebindableSyntax, RoleAnnotations,
+             InstanceSigs, MultiParamTypeClasses,
+             PolyKinds, RankNTypes, RoleAnnotations,
              ScopedTypeVariables, StandaloneDeriving, TupleSections,
              TypeFamilies, TypeOperators, TypeSynonymInstances,
              UndecidableInstances #-}
@@ -23,6 +23,8 @@ import Control.Monad.Identity (Identity (..), runIdentity)
 import Control.Monad.Random
 import Control.Monad.Trans    as T (lift)
 
+import Data.Proxy
+import Data.Functor.Trans.Tagged
 import Data.Coerce
 import Data.Constraint              hiding ((***))
 import Data.Int
@@ -41,17 +43,9 @@ import Foreign.Marshal.Utils (with)
 import Foreign.Ptr
 import Test.QuickCheck       hiding (generate)
 
-import Crypto.Lol.CRTrans
 import Crypto.Lol.Cyclotomic.Tensor
 import Crypto.Lol.Cyclotomic.Tensor.CTensor.Backend
-import Crypto.Lol.Prelude                             as LP hiding
-                                                             (replicate,
-                                                             unzip, zip)
-import Crypto.Lol.Reflects
-import Crypto.Lol.Types.ZqBasic
-
-import Data.Foldable as F
-import Data.Sequence as S (fromList)
+import Crypto.Lol.Factored
 
 import System.IO.Unsafe (unsafePerformIO)
 
@@ -94,13 +88,13 @@ withBasicArgs f =
         f pout totm pfac numFacts))
     CT' <$> unsafeFreeze yout
 
-basicDispatch :: (Storable r, Fact m, Additive r)
+basicDispatch :: (Storable r, Fact m, Num r)
                  => (Ptr r -> Int64 -> Ptr CPP -> Int16 -> IO ())
                      -> Tagged m (CT' m r -> CT' m r)
 basicDispatch f = return $ unsafePerformIO . withBasicArgs f
 
-scalarPow' :: forall m r . (Fact m, Additive r, Storable r) => r -> CT' m r
+scalarPow' :: forall m r . (Fact m, Num r, Storable r) => r -> CT' m r
 -- constant-term coefficient is first entry wrt powerful basis
 scalarPow' =
   let n = proxy totientFact (Proxy::Proxy m)
-  in \r -> CT' $ generate n (\i -> if i == 0 then r else zero)
+  in \r -> CT' $ generate n (\i -> if i == 0 then r else 0)

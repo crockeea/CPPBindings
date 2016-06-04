@@ -62,16 +62,10 @@ library
     Crypto.Lol.PosBin
     Crypto.Lol.Factored
     Crypto.Lol.Reflects
-    Crypto.Lol.CRTrans
-    Crypto.Lol.Prelude
-
     Crypto.Lol.Cyclotomic.Tensor
     Crypto.Lol.Cyclotomic.Tensor.CTensor
 
-    Crypto.Lol.Types.ZqBasic
-
   other-modules:
-
     Crypto.Lol.FactoredDefs
     Crypto.Lol.PosBinDefs
     Crypto.Lol.Types.Complex
