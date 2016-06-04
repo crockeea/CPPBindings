@@ -11,22 +11,11 @@
 module Crypto.Lol.Cyclotomic.Tensor.CTensor
 ( CT ) where
 
-import Algebra.Additive     as Additive (C)
-import Algebra.Module       as Module (C)
-import Algebra.ZeroTestable as ZeroTestable (C)
-
 import Control.Applicative    hiding ((*>))
 import Control.Arrow          ((***))
-import Control.DeepSeq
-import Control.Monad.Except
-import Control.Monad.Identity (Identity (..), runIdentity)
-import Control.Monad.Random
-import Control.Monad.Trans    as T (lift)
 
 import Data.Proxy
-import Data.Functor.Trans.Tagged
 import Data.Coerce
-import Data.Constraint              hiding ((***))
 import Data.Int
 import Data.Maybe
 import Data.Traversable             as T
@@ -41,29 +30,23 @@ import Data.Vector.Storable.Mutable as SM hiding (replicate)
 
 import Foreign.Marshal.Utils (with)
 import Foreign.Ptr
-import Test.QuickCheck       hiding (generate)
 
 import Crypto.Lol.Cyclotomic.Tensor
 import Crypto.Lol.Cyclotomic.Tensor.CTensor.Backend
-import Crypto.Lol.Factored
 
 import System.IO.Unsafe (unsafePerformIO)
 
 -- | Newtype wrapper around a Vector.
-newtype CT' (m :: Factored) r = CT' { unCT :: Vector r }
-                              deriving (Show, Eq, NFData)
-
--- the first argument, though phantom, affects representation
-type role CT' representational nominal
+newtype CT' r = CT' { unCT :: Vector r } deriving (Show, Eq)
 
 -- | An implementation of 'Tensor' backed by C code.
-data CT (m :: Factored) r where
-  CT :: Storable r => CT' m r -> CT m r
+data CT r where
+  CT :: Storable r => CT' r -> CT r
 
-deriving instance Show r => Show (CT m r)
+deriving instance Show r => Show (CT r)
 
 
-wrap :: (Storable r) => (CT' l r -> CT' m r) -> (CT l r -> CT m r)
+wrap :: (Storable r) => (CT' r -> CT' r) -> (CT r -> CT r)
 wrap f (CT v) = CT $ f v
 
 instance Tensor CT where
@@ -71,16 +54,16 @@ instance Tensor CT where
   type TElt CT r = (Storable r, Dispatch r)
 
   scalarPow = CT . scalarPow' -- Vector code
-  l = wrap $ untag $ basicDispatch dl
-  lInv = wrap $ untag $ basicDispatch dlinv
+  l = wrap $ basicDispatch dl
+  lInv = wrap $ basicDispatch dlinv
 
-withBasicArgs :: forall m r . (Fact m, Storable r)
+withBasicArgs :: forall r . (Storable r)
   => (Ptr r -> Int64 -> Ptr CPP -> Int16 -> IO ())
-     -> CT' m r -> IO (CT' m r)
+     -> CT' r -> IO (CT' r)
 withBasicArgs f =
-  let factors = proxy (marshalFactors <$> ppsFact) (Proxy::Proxy m)
-      totm = proxy (fromIntegral <$> totientFact) (Proxy::Proxy m)
-      numFacts = fromIntegral $ SV.length factors
+  let factors = undefined -- proxy (marshalFactors <$> ppsFact) (Proxy::Proxy m)
+      totm = undefined -- proxy (fromIntegral <$> totientFact) (Proxy::Proxy m)
+      numFacts = fromIntegral $ SV.length (factors :: Vector Int)
   in \(CT' x) -> do
     yout <- SV.thaw x
     SM.unsafeWith yout (\pout ->
@@ -88,13 +71,13 @@ withBasicArgs f =
         f pout totm pfac numFacts))
     CT' <$> unsafeFreeze yout
 
-basicDispatch :: (Storable r, Fact m, Num r)
+basicDispatch :: (Storable r, Num r)
                  => (Ptr r -> Int64 -> Ptr CPP -> Int16 -> IO ())
-                     -> Tagged m (CT' m r -> CT' m r)
-basicDispatch f = return $ unsafePerformIO . withBasicArgs f
+                     -> CT' r -> CT' r
+basicDispatch f = unsafePerformIO . withBasicArgs f
 
-scalarPow' :: forall m r . (Fact m, Num r, Storable r) => r -> CT' m r
+scalarPow' :: forall  r . (Num r, Storable r) => r -> CT' r
 -- constant-term coefficient is first entry wrt powerful basis
 scalarPow' =
-  let n = proxy totientFact (Proxy::Proxy m)
+  let n = undefined -- proxy totientFact (Proxy::Proxy m)
   in \r -> CT' $ generate n (\i -> if i == 0 then r else 0)
