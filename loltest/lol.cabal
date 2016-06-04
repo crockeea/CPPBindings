@@ -77,14 +77,12 @@ library
     Crypto.Lol.Factored
     Crypto.Lol.Reflects
     Crypto.Lol.CRTrans
-    Crypto.Lol.Gadget
     Crypto.Lol.Prelude
 
     Crypto.Lol.Cyclotomic.Tensor
     Crypto.Lol.Cyclotomic.Tensor.CTensor
 
     Crypto.Lol.Types.FiniteField
-    Crypto.Lol.Types.IrreducibleChar2
     Crypto.Lol.Types.RRq
     Crypto.Lol.Types.ZPP
     Crypto.Lol.Types.ZqBasic
@@ -93,12 +91,9 @@ library
 
     Crypto.Lol.FactoredDefs
     Crypto.Lol.PosBinDefs
-    Crypto.Lol.GaussRandom
     Crypto.Lol.Types.ZmStar
     Crypto.Lol.Types.Complex
     Crypto.Lol.Types.Numeric
-    Crypto.Lol.Types.IZipVector
-    Crypto.Lol.Cyclotomic.Tensor.CTensor.Extension
     Crypto.Lol.Cyclotomic.Tensor.CTensor.Backend
 
   build-depends:

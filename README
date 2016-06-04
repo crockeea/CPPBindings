@@ -1,3 +1,5 @@
+Run ./sandbox-init to run all examples and show the problem with 'cabal repl' and lol.
+
 
 hlibWithC has a pure-C library linked to a Haskell library using cabal.
 It compiles, builds the test, and the test executes successfully. I can also run 'cabal repl'
