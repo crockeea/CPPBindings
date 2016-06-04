@@ -16,7 +16,6 @@ executable cpptest
   -- order matters on these cpp files when using `cabal repl`. See GHC#12152
   C-sources:    src/zq.cpp, src/main.cpp
   cc-options: -fPIC
-  -- ghc-options: -fPIC
   main-is: Main.hs
 
 
