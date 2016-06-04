@@ -1,48 +1,49 @@
 #!/bin/bash
+
 # a little cleanup
-cd ../hlibWithC
-cabal clean
-cd ../hlibWithCPP
-cabal clean
-cd /simplelib
-cabal clean
+cd hlibWithC
+#cabal clean
+#cd ../hlibWithCPP
+#cabal clean
+#cd ../simplelib
+#cabal clean
 cd ../loltest
 cabal clean
-cd ..
-rm -rf sandbox
+#cd ..
+#rm -rf sandbox
 # make a sandbox
-mkdir sandbox
-cd sandbox
-cabal sandbox init --sandbox .
-cabal sandbox add-source ../hlibWithC
-cabal sandbox add-source ../hlibWithCPP
-cabal sandbox add-source ../simplelib
-cabal sandbox add-source ../loltest
+#mkdir sandbox
+#cd sandbox
+#cabal sandbox init --sandbox .
+#cabal sandbox add-source ../hlibWithC
+#cabal sandbox add-source ../hlibWithCPP
+#cabal sandbox add-source ../simplelib
+#cabal sandbox add-source ../loltest
 # build and test hlibWithC
-cd ../hlibWithC
-cabal sandbox init --sandbox ../sandbox
-cabal configure --enable-tests
-cabal build
-cabal test
-cabal repl
+#cd ../hlibWithC
+#cabal sandbox init --sandbox ../sandbox
+#cabal configure --enable-tests
+#cabal build
+#cabal test
+#cabal repl
 # install and test hlibWithCPP
-cd ../hlibWithCPP
-cabal sandbox init --sandbox ../sandbox
-cabal configure --enable-tests
-cabal install
-cabal test
-cabal repl
+#cd ../hlibWithCPP
+#cabal sandbox init --sandbox ../sandbox
+#cabal configure --enable-tests
+#cabal install
+#cabal test
+#cabal repl
 # build and test simplelib
-cd ../simplelib
-cabal sandbox init --sandbox ../sandbox
-cabal configure --enable-tests
-cabal build
-cabal test
-cabal repl
+#cd ../simplelib
+#cabal sandbox init --sandbox ../sandbox
+#cabal configure --enable-tests
+#cabal build
+#cabal test
+#cabal repl
 # build and test loltest
-cd ../loltest
-cabal sandbox init --sandbox ../sandbox
-cabal install --dependencies-only
+#cd ../loltest
+#cabal sandbox init --sandbox ../sandbox
+#cabal install dependencies-only
 cabal configure --enable-tests
 cabal build
 cabal test

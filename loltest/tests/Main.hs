@@ -1,7 +1,5 @@
 
-import Crypto.Lol.Cyclotomic.Tensor.CTensor
-import Crypto.Lol.Cyclotomic.Tensor
-
+import CTensor
 import Data.Int
 
 main :: IO ()
