@@ -9,7 +9,7 @@ library
   exposed-modules:
     SimpleLib
 
-  build-depends: base==4.8.*, hlib
+  build-depends: base==4.8.*, hlibWithCPP
 
 test-suite test
   type:               exitcode-stdio-1.0

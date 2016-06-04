@@ -1,6 +1,7 @@
 
 module SimpleLib where
 
-import CTensor (temp)
+import HLibWithCPP (addHInt, addHDouble)
 
-temp2 = temp
+addHInt' = addHInt
+addHDouble' = addHDouble
