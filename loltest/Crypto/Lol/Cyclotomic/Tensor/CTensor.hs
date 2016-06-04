@@ -48,8 +48,6 @@ import Crypto.Lol.Prelude                             as LP hiding
                                                              (replicate,
                                                              unzip, zip)
 import Crypto.Lol.Reflects
-import Crypto.Lol.Types.FiniteField
-import Crypto.Lol.Types.RRq
 import Crypto.Lol.Types.ZqBasic
 
 import Data.Foldable as F

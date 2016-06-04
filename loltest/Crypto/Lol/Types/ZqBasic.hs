@@ -18,8 +18,6 @@ module Crypto.Lol.Types.ZqBasic
 import Crypto.Lol.CRTrans
 import Crypto.Lol.Prelude           as LP
 import Crypto.Lol.Reflects
-import Crypto.Lol.Types.FiniteField
-import Crypto.Lol.Types.ZPP
 
 import Math.NumberTheory.Primes.Factorisation
 import Math.NumberTheory.Primes.Testing
@@ -76,17 +74,6 @@ instance (Reflects q z, ToInteger z) => Mod (ZqBasic q z) where
   type ModRep (ZqBasic q z) = z
 
   modulus = retag (value :: Tagged q z)
-
-type instance CharOf (ZqBasic p z) = p
-
-instance (PPow pp, zq ~ ZqBasic pp z,
-          PrimeField (ZpOf zq), Ring zq, Ring (ZpOf zq))
-         => ZPP (ZqBasic (pp :: PrimePower) z) where
-
-  type ZpOf (ZqBasic pp z) = ZqBasic (PrimePP pp) z
-
-  modulusZPP = retag (ppPPow :: Tagged pp PP)
-  liftZp = coerce
 
 instance (Reflects q z, ToInteger z) => Reduce z (ZqBasic q z) where
   reduce = reduce'

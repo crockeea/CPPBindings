@@ -15,21 +15,7 @@ copyright:           Eric Crockett, Chris Peikert
 category:            Crypto
 stability:           experimental
 build-type:          Simple
-extra-source-files:  README, CHANGES.md,
-                     benchmarks/CycBenches.hs,
-                     benchmarks/TensorBenches.hs,
-                     benchmarks/UCycBenches.hs,
-                     benchmarks/ZqBenches.hs,
-                     tests/CycTests.hs,
-                     tests/ZqTests.hs,
-                     tests/TensorTests.hs,
-                     utils/Apply.hs,
-                     utils/Benchmarks.hs,
-                     utils/Gen.hs,
-                     utils/Tests.hs,
-                     utils/TestTypes.hs,
-                     utils/Utils.hs,
-                     utils/Harness/Cyc.hs,
+extra-source-files:  README
                      Crypto/Lol/Cyclotomic/Tensor/CTensor/tensorTypes.h,
                      Crypto/Lol/Cyclotomic/Tensor/CTensor/*.cpp
 cabal-version:       >= 1.10
@@ -82,16 +68,12 @@ library
     Crypto.Lol.Cyclotomic.Tensor
     Crypto.Lol.Cyclotomic.Tensor.CTensor
 
-    Crypto.Lol.Types.FiniteField
-    Crypto.Lol.Types.RRq
-    Crypto.Lol.Types.ZPP
     Crypto.Lol.Types.ZqBasic
 
   other-modules:
 
     Crypto.Lol.FactoredDefs
     Crypto.Lol.PosBinDefs
-    Crypto.Lol.Types.ZmStar
     Crypto.Lol.Types.Complex
     Crypto.Lol.Types.Numeric
     Crypto.Lol.Cyclotomic.Tensor.CTensor.Backend
