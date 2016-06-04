@@ -1,6 +1,6 @@
 
 module SimpleLib where
 
-import CTensor
+import CTensor (temp)
 
 temp2 = temp

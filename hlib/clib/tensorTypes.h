@@ -29,7 +29,7 @@ typedef struct
 
 // calculates base ** exp
 hDim_t ipow(hDim_t base, hShort_t exp);
-
+#ifdef __cplusplus
 template <typename ring> void tensorFuserPrime (ring* y, hShort_t tupSize, void (*f) (ring* y, hShort_t tupSize, hDim_t lts, hDim_t rts, hDim_t p), hDim_t totm, PrimeExponent* peArr, hShort_t sizeOfPE, hInt_t* qs);
-
+#endif
 #endif /* TENSORTYPES_H_ */

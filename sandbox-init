@@ -4,6 +4,12 @@ cd hlib
 cabal clean
 cd ../simplelib
 cabal clean
+cd ../hlibWithC
+cabal clean
+cd ../hlibWithCPP
+cabal clean
+cd ../loltest
+cabal clean
 cd ..
 rm -rf sandbox
 # make a sandbox
@@ -12,17 +18,41 @@ cd sandbox
 cabal sandbox init --sandbox .
 cabal sandbox add-source ../hlib
 cabal sandbox add-source ../simplelib
+cabal sandbox add-source ../hlibWithC
+cabal sandbox add-source ../hlibWithCPP
+cabal sandbox add-source ../loltest
 # install and test hlib
 cd ../hlib
 cabal sandbox init --sandbox ../sandbox
 cabal configure --enable-tests
 cabal install
 cabal test
+cabal repl
 # build and test simplelib
 cd ../simplelib
 cabal sandbox init --sandbox ../sandbox
 cabal configure --enable-tests
 cabal build
 cabal test
+cabal repl
+cd ../hlibWithC
+cabal sandbox init --sandbox ../sandbox
+cabal configure --enable-tests
+cabal build
+cabal test
+cabal repl
+cd ../hlibWithCPP
+cabal sandbox init --sandbox ../sandbox
+cabal configure --enable-tests
+cabal build
+cabal test
+cabal repl
+cd ../loltest
+cabal sandbox init --sandbox ../sandbox
+cabal install --dependencies-only
+cabal configure --enable-tests
+cabal build
+cabal test
+cabal repl
 cd ..
 exit

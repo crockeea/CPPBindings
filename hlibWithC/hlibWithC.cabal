@@ -1,0 +1,22 @@
+name:                 hlibWithC
+version:              0.0.0.1
+synopsis:             A test for C++ linking.
+build-type:           Simple
+cabal-version:        >= 1.10
+
+library
+  default-language:   Haskell2010
+  hs-source-dirs:     src
+  Include-dirs:       clib
+  C-sources:          clib/l.c, clib/generalfuncs.c
+  Includes:           clib/tensorTypes.h
+
+  exposed-modules:    HLibWithC
+  build-depends:      base
+
+test-suite test
+  type:               exitcode-stdio-1.0
+  hs-source-dirs:     tests
+  default-language:   Haskell2010
+  main-is:            Main.hs
+  build-depends:      base, hlibWithC
