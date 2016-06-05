@@ -13,11 +13,12 @@ executable cpptest
   Include-dirs: src
   -- we need stdc++ to use `cout`
   extra-libraries: stdc++
-  -- order matters on these cpp files when using `cabal repl`. See GHC#12152
-  C-sources:    src/zq.cpp, src/main.cpp
+  -- Order matters for dynamic linking, see GHC#12152.
+  -- To make both `cabal repl` and `stack ghci` work, we have to
+  -- make "a.cpp" come alphabetically before "main.cpp".
+  C-sources:    src/a.cpp, src/main.cpp
   cc-options: -fPIC
   ghc-options: -pgmlg++
   main-is: Main.hs
-
 
   build-depends: base
